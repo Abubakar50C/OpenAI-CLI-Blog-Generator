@@ -14,3 +14,11 @@ def generate_blog(paragraph_topic):
     return response.choices[0].text.strip()
 
 keep_writing = True
+
+while keep_writing:
+    answer = input('Write a paragraph? Y for yes, anything else for no: ').strip().upper()
+    if answer == 'Y':
+        paragraph_topic = input('What should this paragraph talk about? ').strip()
+        print(generate_blog(paragraph_topic))
+    else:
+        keep_writing = False
