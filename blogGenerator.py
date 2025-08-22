@@ -5,13 +5,15 @@ config = dotenv_values(".env")
 openai.api_key = config['API_KEY']
 
 def generate_blog(paragraph_topic):
-    response = openai.Completion.create(
-        model='text-davinci-003',
-        prompt=f'Write a paragraph about the following topic: {paragraph_topic}',
-        max_tokens=400,
-        temperature=0.3
+    response = openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": f"Write a paragraph about the following topic: {paragraph_topic}"}
+        ],
+        temperature=0.3,
+        max_tokens=400
     )
-    return response.choices[0].text.strip()
+    return response.choices[0].message.content.strip()
 
 keep_writing = True
 
@@ -21,4 +23,5 @@ while keep_writing:
         paragraph_topic = input('What should this paragraph talk about? ').strip()
         print(generate_blog(paragraph_topic))
     else:
+        "Thank you for using the OpenAI CLI Blog Generator! Bye."
         keep_writing = False
